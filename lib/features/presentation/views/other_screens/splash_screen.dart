@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:news_app/features/presentation/views/home_view.dart';
+import 'package:news_app/features/presentation/views/other_screens/choose_category.dart';
 import 'package:news_app/features/presentation/views/other_screens/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,8 +25,10 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const LoginView()));
         } else {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const HomeView()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const ChooseCategoryScreen()));
         }
       },
     );

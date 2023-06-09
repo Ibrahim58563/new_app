@@ -11,9 +11,9 @@ class NewsModel extends Equatable {
   final String? urlToImage;
   final String? publishedAt;
   final String? content;
-  final String? category;
+  String? category;
 
-  const NewsModel({
+  NewsModel({
     this.source,
     this.author,
     this.title,

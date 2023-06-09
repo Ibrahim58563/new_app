@@ -28,15 +28,16 @@ class _HotNewsBodyState extends State<HotNewsBody> {
       body: Column(
         children: [
           const MainAppBar(),
-          const MainTitle(text: 'Breaking News', url: "View All"),
+          const MainTitle(text: 'Breaking News', url: " "),
           const MainCarousalSlider(),
-          const MainTitle(text: 'Recommendation', url: "View All"),
+          const MainTitle(text: 'Recommendation', url: " "),
           BlocBuilder<EveryNewCubit, EveryNewState>(
             builder: (context, state) {
               if (state is EveryNewSuccess) {
                 return Expanded(
                   child: ListView.builder(
-                      itemCount: state.news.length,
+                      // itemCount: state.news.length,
+                      itemCount: 8,
                       itemBuilder: (context, index) {
                         return CustomRecommendationItem(
                           imageUrl: '${state.news[index].urlToImage}',

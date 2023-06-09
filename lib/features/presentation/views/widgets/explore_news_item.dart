@@ -38,7 +38,7 @@ class ExploreNewsItem extends StatelessWidget {
                       title: title,
                       date: date,
                       category: category,
-                      content: (content.substring(0, content.length - 15) * 3),
+                      content: (content),
                     ))),
         child: Column(
           children: [
@@ -71,9 +71,9 @@ class ExploreNewsItem extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: Colors.grey[300],
                                   borderRadius: BorderRadius.circular(4)),
-                              child: const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text("Category"),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(category),
                               )),
                         ),
                         Column(

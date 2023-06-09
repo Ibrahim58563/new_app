@@ -41,12 +41,12 @@ final GoRouter router = GoRouter(
             return const LoginView();
           },
         ),
-        GoRoute(
-          path: 'homeView',
-          builder: (BuildContext context, GoRouterState state) {
-            return const HomeView();
-          },
-        ),
+        // GoRoute(
+        //   path: 'homeView',
+        //   builder: (BuildContext context, GoRouterState state) {
+        //     return const HomeView();
+        //   },
+        // ),
         GoRoute(
           path: 'itemDetailScreen',
           builder: (BuildContext context, GoRouterState state) {

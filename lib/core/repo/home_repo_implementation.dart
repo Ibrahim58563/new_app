@@ -5,6 +5,8 @@ import 'package:dartz/dartz.dart';
 import 'package:news_app/core/repo/home_repo.dart';
 import 'package:news_app/core/utils/api_service.dart';
 
+List<String> categoryParameterList = [];
+
 class HomeRepoImplementation extends HomeRepo {
   final ApiService apiService;
 
@@ -12,15 +14,22 @@ class HomeRepoImplementation extends HomeRepo {
   @override
   Future<Either<Failure, List<NewsModel>>> fetchBreakingNews() async {
     try {
-      var data = await apiService.get(
-        endPoint: '/v2/latest_headlines?countries=US&topic=business',
-      );
       List<NewsModel> news = [];
-      for (var item in data['articles']) {
-        if (NewsModel.fromJson(item).urlToImage != null) {
-          news.add(NewsModel.fromJson(item));
+      for (int i = 0; i < categoryParameterList.length; i++) {
+        var data = await apiService.get(
+          endPoint:
+              '/v2/top-headlines?country=us&category=${categoryParameterList[i]}&apiKey=bdcd432edce64b73b050a35f7def53cf',
+        );
+        print("${categoryParameterList[i]} added successfully");
+        for (var item in data['articles']) {
+          if (NewsModel.fromJson(item).urlToImage != null) {
+            news.add(NewsModel.fromJson(item));
+          }
+          news.last.category = categoryParameterList[i];
         }
+        print(data['articles'].length);
       }
+      news.shuffle();
       return right(news);
     } catch (e) {
       if (e is DioError) {
@@ -33,15 +42,22 @@ class HomeRepoImplementation extends HomeRepo {
   @override
   Future<Either<Failure, List<NewsModel>>> fetchRecommendationNews() async {
     try {
-      var data = await apiService.get(
-        endPoint: '/v2/latest_headlines?countries=US&topic=business',
-      );
       List<NewsModel> news = [];
-      for (var item in data['articles']) {
-        if (NewsModel.fromJson(item).urlToImage != null) {
-          news.add(NewsModel.fromJson(item));
+      for (int i = 0; i < categoryParameterList.length; i++) {
+        var data = await apiService.get(
+          endPoint:
+              '/v2/top-headlines?country=us&category=${categoryParameterList[i]}&apiKey=bdcd432edce64b73b050a35f7def53cf',
+        );
+        print("${categoryParameterList[i]} added successfully");
+        for (var item in data['articles']) {
+          if (NewsModel.fromJson(item).urlToImage != null) {
+            news.add(NewsModel.fromJson(item));
+          }
+          news.last.category = categoryParameterList[i];
         }
+        print(data['articles'].length);
       }
+      news.shuffle();
       return right(news);
     } catch (e) {
       if (e is DioError) {

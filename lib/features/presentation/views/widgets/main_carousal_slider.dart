@@ -50,8 +50,7 @@ class _MainCarousalSliderState extends State<MainCarousalSlider> {
                           source: '${state.news[item.key].source!.name}',
                           title: '${state.news[item.key].title}',
                           date: '${state.news[item.key].publishedAt}',
-                          content: '${state.news[item.key].content}'
-                              .substring(-10, -1),
+                          content: '${state.news[item.key].content}',
                         ),
                       ),
                     ),
@@ -71,7 +70,7 @@ class _MainCarousalSliderState extends State<MainCarousalSlider> {
                                 padding: const EdgeInsets.all(20.0),
                                 child: Container(
                                   height: 30,
-                                  width: 80,
+                                  width: 100,
                                   decoration: BoxDecoration(
                                       color: Colors.blue,
                                       borderRadius:
@@ -140,6 +139,8 @@ class _MainCarousalSliderState extends State<MainCarousalSlider> {
                                         ),
                                         Text(
                                           '${state.news[item.key].title}',
+                                          maxLines: 3,
+                                          overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
