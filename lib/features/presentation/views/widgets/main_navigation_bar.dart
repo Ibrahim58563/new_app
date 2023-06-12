@@ -4,14 +4,14 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../hot_news_body.dart';
 import '../other_screens/explore_news_body.dart';
-import '../other_screens/main_screen3.dart';
+import '../other_screens/book_marks_screen.dart';
 import '../other_screens/main_screen4.dart';
 
 List<Widget> _buildScreens() {
   return [
     const ExploreNewsBody(),
     const HotNewsBody(),
-    const MainScreen3(),
+     BookMarksScreen(),
     const MainScreen4(),
   ];
 }

@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:news_app/core/models/news_model/hive_bookMark_model.dart';
 import 'package:news_app/features/presentation/views/other_screens/item_detail_screen.dart';
 
-class ExploreNewsItem extends StatelessWidget {
+class ExploreNewsItem extends StatefulWidget {
   const ExploreNewsItem({
     super.key,
     required this.imageUrl,
@@ -22,6 +24,26 @@ class ExploreNewsItem extends StatelessWidget {
   final String content;
 
   @override
+  State<ExploreNewsItem> createState() => _ExploreNewsItemState();
+}
+
+class _ExploreNewsItemState extends State<ExploreNewsItem> {
+  late Box bookMarks;
+  @override
+  void initState() {
+    // bookMarks.clear();
+    super.initState();
+    bookMarks = Hive.box<HiveBookMarkModel>('bookMarks');
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    bookMarks.close();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
@@ -33,12 +55,12 @@ class ExploreNewsItem extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => ItemDetailScreen(
-                      imageUrl: imageUrl,
-                      source: source,
-                      title: title,
-                      date: date,
-                      category: category,
-                      content: (content),
+                      imageUrl: widget.imageUrl,
+                      source: widget.source,
+                      title: widget.title,
+                      date: widget.date,
+                      category: widget.category,
+                      content: (widget.content),
                     ))),
         child: Column(
           children: [
@@ -59,7 +81,7 @@ class ExploreNewsItem extends StatelessWidget {
                   children: [
                     CachedNetworkImage(
                       fit: BoxFit.cover,
-                      imageUrl: imageUrl,
+                      imageUrl: widget.imageUrl,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,7 +95,7 @@ class ExploreNewsItem extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(4)),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(category),
+                                child: Text(widget.category),
                               )),
                         ),
                         Column(
@@ -88,24 +110,25 @@ class ExploreNewsItem extends StatelessWidget {
                                   decoration: BoxDecoration(
                                       color: Colors.grey[300],
                                       borderRadius: BorderRadius.circular(4)),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Icon(CupertinoIcons.heart),
-                                  )),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.grey[300],
-                                      borderRadius: BorderRadius.circular(4)),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Icon(CupertinoIcons.bookmark),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: InkWell(
+                                        onTap: () async {
+                                          bookMarks.put('p1',HiveBookMarkModel(
+                                            urlToImage: widget.imageUrl,
+                                            source: widget.source,
+                                            title: widget.title,
+                                            publishedAt: widget.date,
+                                            category: widget.category,
+                                            content: (widget.content),
+                                            author: '',
+                                            description: '',
+                                            url: '',
+                                          ));
+                                          print("item added");
+                                        },
+                                        child: const Icon(
+                                            CupertinoIcons.bookmark)),
                                   )),
                             ),
                           ],
@@ -123,7 +146,7 @@ class ExploreNewsItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title,
+                      widget.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -138,12 +161,12 @@ class ExploreNewsItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          source,
+                          widget.source,
                           style:
                               TextStyle(color: Colors.grey[500], fontSize: 12),
                         ),
                         Text(
-                          date.substring(0, 10),
+                          widget.date.substring(0, 10),
                           style: TextStyle(color: Colors.grey[500]),
                         ),
                       ],

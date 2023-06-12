@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:news_app/core/repo/home_repo_implementation.dart';
 import 'package:news_app/core/utils/service_locator.dart';
 import 'package:news_app/features/presentation/manager/auth/login/login_cubit.dart';
@@ -7,6 +8,8 @@ import 'package:news_app/features/presentation/manager/auth/signup/signup_cubit.
 import 'package:news_app/features/presentation/manager/every_news/every_news_cubit.dart';
 import 'package:news_app/features/presentation/manager/top_headlines/top_headlines_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:path_provider/path_provider.dart';
+import 'core/models/news_model/hive_bookMark_model.dart';
 import 'core/utils/app_routes.dart';
 import 'firebase_options.dart';
 
@@ -16,7 +19,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  setup();
+  final appDocumentDirectory = await getApplicationDocumentsDirectory();
+  Hive.initFlutter(appDocumentDirectory.path);
+  Hive.registerAdapter(HiveBookMarkModelAdapter());
+  // await Hive.openBox('bookMarks');
+  var bookMarks = await Hive.openBox<HiveBookMarkModel>('bookMarks');
+  bookMarks.clear();
+
   runApp(const MyApp());
 }
 
@@ -38,8 +47,8 @@ class MyApp extends StatelessWidget {
               EveryNewCubit(getIt.get<HomeRepoImplementation>())
                 ..fetchEveryNews(),
         ),
-        BlocProvider(create: (context)=>signupCubit()),
-        BlocProvider(create: (context)=>LoginCubit())
+        BlocProvider(create: (context) => signupCubit()),
+        BlocProvider(create: (context) => LoginCubit())
       ],
       child: MaterialApp.router(
         theme: ThemeData(
