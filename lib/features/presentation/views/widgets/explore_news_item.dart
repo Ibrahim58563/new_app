@@ -28,19 +28,19 @@ class ExploreNewsItem extends StatefulWidget {
 }
 
 class _ExploreNewsItemState extends State<ExploreNewsItem> {
-  late Box bookMarks;
+  // late Box bookMarks;
   @override
   void initState() {
     // bookMarks.clear();
     super.initState();
-    bookMarks = Hive.box<HiveBookMarkModel>('bookMarks');
+    // bookMarks = Hive.box('bookMarks');
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    bookMarks.close();
+    // bookMarks.close();
   }
 
   @override
@@ -114,17 +114,20 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: InkWell(
                                         onTap: () async {
-                                          bookMarks.put('p1',HiveBookMarkModel(
-                                            urlToImage: widget.imageUrl,
-                                            source: widget.source,
-                                            title: widget.title,
-                                            publishedAt: widget.date,
-                                            category: widget.category,
-                                            content: (widget.content),
-                                            author: '',
-                                            description: '',
-                                            url: '',
-                                          ));
+                                          // var bookMarks = Hive.box('bookMarks');
+                                          // bookMarks.put(
+                                          //     'p1',
+                                          //     HiveBookMarkModel(
+                                          //       urlToImage: widget.imageUrl,
+                                          //       source: widget.source,
+                                          //       title: widget.title,
+                                          //       publishedAt: widget.date,
+                                          //       category: widget.category,
+                                          //       content: (widget.content),
+                                          //       author: '',
+                                          //       description: '',
+                                          //       url: '',
+                                          //     ));
                                           print("item added");
                                         },
                                         child: const Icon(

@@ -20,12 +20,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   final appDocumentDirectory = await getApplicationDocumentsDirectory();
+  // Hive.init(appDocumentDirectory.path);
   Hive.initFlutter(appDocumentDirectory.path);
   Hive.registerAdapter(HiveBookMarkModelAdapter());
-  // await Hive.openBox('bookMarks');
-  var bookMarks = await Hive.openBox<HiveBookMarkModel>('bookMarks');
-  bookMarks.clear();
-
+  Hive.openBox('bookMarks');
+  setup();
   runApp(const MyApp());
 }
 

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/features/presentation/views/home_view.dart';
 
@@ -12,7 +13,15 @@ List<String> categoryList = [
   'technology',
   'health',
 ];
-
+List<String> categoryImageList = [
+  'https://freepngimg.com/download/business/70298-management-business-icons-consultant-company-social-marketing.png',
+  'https://cdn-icons-png.flaticon.com/512/6008/6008427.png',
+  'https://grin2b.com/wp-content/uploads/2017/01/Grin2B_icon_NEWS.png',
+  'https://cdn-icons-png.flaticon.com/512/2947/2947865.png',
+  'https://img.freepik.com/premium-vector/jumping-icon-sports-logo-vector_148524-30.jpg?w=2000',
+  'https://img.freepik.com/free-vector/illustration-social-media-concept_53876-18383.jpg?w=2000',
+  'https://cdn-icons-png.flaticon.com/512/4003/4003833.png',
+];
 List<String> passedParameterList = [];
 
 class ChooseCategoryScreen extends StatelessWidget {
@@ -24,7 +33,8 @@ class ChooseCategoryScreen extends StatelessWidget {
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             const Text(
               "Choose Categories to start read about",
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 32),
@@ -47,8 +57,7 @@ class ChooseCategoryScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
                           onTap: () {
-                            categoryParameterList
-                                .add(categoryList[index]);
+                            categoryParameterList.add(categoryList[index]);
                             debugPrint(
                                 '${categoryList[index]} added successfully');
                           },
@@ -73,10 +82,8 @@ class ChooseCategoryScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Icon(
-                                    Icons.abc,
-                                    size: 100,
-                                  ),
+                                  CachedNetworkImage(
+                                      imageUrl: categoryImageList[index]),
                                   Text(
                                     categoryList[index],
                                     style: const TextStyle(
@@ -91,6 +98,7 @@ class ChooseCategoryScreen extends StatelessWidget {
                       );
                     })),
             MaterialButton(
+              color: Colors.blue,
               onPressed: () {
                 Navigator.push(
                     context,
@@ -99,7 +107,12 @@ class ChooseCategoryScreen extends StatelessWidget {
                               passedParameterList: passedParameterList,
                             )));
               },
-              child: const Text("Continue"),
+              child: const Text(
+                "Continue",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             )
           ]),
         ),

@@ -41,7 +41,7 @@ class _HotNewsBodyState extends State<HotNewsBody> {
                       itemBuilder: (context, index) {
                         return CustomRecommendationItem(
                           imageUrl: '${state.news[index].urlToImage}',
-                          source: '${state.news[index].source!.name}',
+                          source: '${state.news[index].source!.id}',
                           date: ' ${state.news[index].publishedAt!}',
                           category: '${state.news[index].category}',
                           title: '${state.news[index].title}',
