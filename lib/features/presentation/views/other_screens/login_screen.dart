@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app/features/presentation/manager/auth/cashe_helper.dart';
 import 'package:news_app/features/presentation/manager/auth/user_secure_storage.dart';
+import 'package:news_app/features/presentation/views/other_screens/choose_category.dart';
+import 'package:news_app/features/presentation/views/other_screens/sign_up_screen.dart';
 import 'package:news_app/features/presentation/views/widgets/custom_loading_indicator.dart';
 
 import '../../manager/auth/login/login_cubit.dart';
@@ -120,7 +121,7 @@ class _LoginViewState extends State<LoginView> {
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const LoginView(),
+                          builder: (context) => const signupView(),
                         ),
                       ),
                       child: const Text(
@@ -144,7 +145,11 @@ class _LoginViewState extends State<LoginView> {
                     }
                     if (state is LoginSuccessState) {
                       CacheHelper.saveData(key: 'uId', value: state.uId);
-                      context.go('/homeView');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const ChooseCategoryScreen()));
                     }
                     return BlocConsumer<LoginCubit, LoginState>(
                         listener: (context, state) {},
@@ -163,7 +168,11 @@ class _LoginViewState extends State<LoginView> {
                                 await UserSecureStorage.setEmail(
                                   emailController!.text.trim(),
                                 );
-                                context.go('/homeView');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ChooseCategoryScreen()));
                               }
                             },
                             text: 'Login',

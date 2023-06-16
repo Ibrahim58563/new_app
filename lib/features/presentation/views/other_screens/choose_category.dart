@@ -24,98 +24,129 @@ List<String> categoryImageList = [
 ];
 List<String> passedParameterList = [];
 
-class ChooseCategoryScreen extends StatelessWidget {
+class ChooseCategoryScreen extends StatefulWidget {
   const ChooseCategoryScreen({super.key});
 
+  @override
+  State<ChooseCategoryScreen> createState() => _ChooseCategoryScreenState();
+}
+
+class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
+  bool isChecked = false;
+  List selectedIndex = [];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            const Text(
+        body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
               "Choose Categories to start read about",
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 32),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Expanded(
-                child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 5,
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 5,
-                      childAspectRatio: 0.9,
-                    ),
-                    itemCount: 7,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: InkWell(
-                          onTap: () {
+          ),
+          // const SizedBox(
+          //   height: 20,
+          // ),
+          Expanded(
+              child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    mainAxisSpacing: 5,
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 5,
+                    childAspectRatio: 0.915,
+                  ),
+                  itemCount: 7,
+                  itemBuilder: (context, index) {
+                    // bool isChecked = false;
+
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            selectedIndex.contains(index)
+                                ? selectedIndex.remove(index)
+                                : selectedIndex.add(index);
+                            isChecked = !isChecked;
+                          });
+
+                          if (categoryParameterList
+                              .contains(categoryList[index])) {
+                            categoryParameterList.remove(categoryList[index]);
+                            debugPrint(
+                                '${categoryList[index]} deleted successfully');
+                          } else {
                             categoryParameterList.add(categoryList[index]);
                             debugPrint(
                                 '${categoryList[index]} added successfully');
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: const Offset(
-                                      0, 3), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CachedNetworkImage(
-                                      imageUrl: categoryImageList[index]),
-                                  Text(
-                                    categoryList[index],
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
-                                ],
+                          }
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          height: MediaQuery.of(context).size.width * 0.3,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            border: selectedIndex.contains(index)
+                                ? Border.all(
+                                    color: Colors.blue,
+                                    width: 3,
+                                    strokeAlign: BorderSide.strokeAlignOutside)
+                                : null,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
                               ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CachedNetworkImage(
+                                  imageUrl: categoryImageList[index],
+                                  height: 135,
+                                ),
+                                Text(
+                                  categoryList[index],
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         ),
-                      );
-                    })),
-            MaterialButton(
-              color: Colors.blue,
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HomeView(
-                              passedParameterList: passedParameterList,
-                            )));
-              },
-              child: const Text(
-                "Continue",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
+                      ),
+                    );
+                  })),
+          MaterialButton(
+            height: 50,
+            color: Colors.blue,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HomeView(
+                            passedParameterList: passedParameterList,
+                          )));
+            },
+            child: const Text(
+              "Continue",
+              style: TextStyle(
+                color: Colors.white,
               ),
-            )
-          ]),
-        ),
+            ),
+          )
+        ]),
       ),
     );
   }

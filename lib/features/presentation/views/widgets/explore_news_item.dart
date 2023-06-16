@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:news_app/core/models/news_model/hive_bookMark_model.dart';
 import 'package:news_app/features/presentation/views/other_screens/item_detail_screen.dart';
 
 class ExploreNewsItem extends StatefulWidget {
@@ -154,7 +152,7 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontSize: 22,
                       ),
                     ),
                     const SizedBox(
@@ -166,10 +164,10 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
                         Text(
                           widget.source,
                           style:
-                              TextStyle(color: Colors.grey[500], fontSize: 12),
+                              TextStyle(color: Colors.grey[500], fontSize: 16),
                         ),
                         Text(
-                          widget.date.substring(0, 10),
+                          widget.date.substring(0, 11),
                           style: TextStyle(color: Colors.grey[500]),
                         ),
                       ],

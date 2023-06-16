@@ -83,7 +83,7 @@ class _SplashScreenState extends State<SplashScreen> {
             },
           ),
           AnimatedPositioned(
-            right: MediaQuery.of(context).size.width * 0.2,
+            right: MediaQuery.of(context).size.width * 0.17,
             // curve: Curves.bounceInOut,
             width: start ? 200 : 300,
             top: MediaQuery.of(context).size.width * 0.5,

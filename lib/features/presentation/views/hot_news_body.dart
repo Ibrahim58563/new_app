@@ -50,7 +50,7 @@ class _HotNewsBodyState extends State<HotNewsBody> {
                       }),
                 );
               } else if (state is EveryNewFailure) {
-                print("error here");
+                print(state.failure.toString());
                 return CustomErrorWidget(errMessage: state.failure);
               } else {
                 return const CustomLoadingIndicator();

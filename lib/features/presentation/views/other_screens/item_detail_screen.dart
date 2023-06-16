@@ -85,7 +85,7 @@ class ItemDetailScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Container(
                 height: 30,
-                width: 80,
+                width: 100,
                 decoration: BoxDecoration(
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(20.0)),
@@ -119,7 +119,7 @@ class ItemDetailScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
                     source,
@@ -137,11 +137,9 @@ class ItemDetailScreen extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  const Spacer(),
                   Text(
-                    date,
+                    date.substring(0, 11),
                     style: const TextStyle(color: Colors.white, fontSize: 13),
                   ),
                 ],
