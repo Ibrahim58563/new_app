@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 part 'hive_bookMark_model.g.dart';
 
@@ -23,6 +24,7 @@ class HiveBookMarkModel extends HiveObject {
   late String category;
 
   HiveBookMarkModel({
+    // required Key key,
     required this.source,
     required this.author,
     required this.title,

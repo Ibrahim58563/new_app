@@ -18,7 +18,7 @@ class HomeRepoImplementation extends HomeRepo {
       for (int i = 0; i < categoryParameterList.length; i++) {
         var data = await apiService.get(
           endPoint:
-              '/v2/top-headlines?country=us&category=${categoryParameterList[i]}&apiKey=bdcd432edce64b73b050a35f7def53cf',
+              '/v2/top-headlines?country=us&category=${categoryParameterList[i]}&apiKey=45e8aa2e58b4452b9141bdef4f0364ef',
         );
         print("${categoryParameterList[i]} added successfully");
         for (var item in data['articles']) {

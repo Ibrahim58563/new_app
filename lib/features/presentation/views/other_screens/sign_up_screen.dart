@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:news_app/features/presentation/views/other_screens/login_screen.dart';
 import 'package:news_app/features/presentation/views/other_screens/phone_screen.dart';
 import '../../manager/auth/signup/signup_cubit.dart';
 
@@ -92,6 +92,21 @@ class _signupViewState extends State<signupView> {
                   ),
                   const SizedBox(
                     height: 10,
+                  ),
+                  InkWell(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginView(),
+                      ),
+                    ),
+                    child: const Text(
+                      'Already Have an Account! Sign in ',
+                      style: TextStyle(
+                        color: Colors.grey, fontSize: 14,
+                        // decoration: TextDecoration.underline,
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     height: 10,

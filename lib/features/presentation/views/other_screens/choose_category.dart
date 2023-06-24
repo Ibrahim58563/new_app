@@ -132,7 +132,7 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
             height: 50,
             color: Colors.blue,
             onPressed: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => HomeView(
@@ -143,6 +143,7 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
               "Continue",
               style: TextStyle(
                 color: Colors.white,
+                fontSize: 24,
               ),
             ),
           )

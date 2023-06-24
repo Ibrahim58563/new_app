@@ -22,10 +22,10 @@ class _SplashScreenState extends State<SplashScreen> {
     FirebaseAuth.instance.authStateChanges().listen(
       (user) {
         if (user == null) {
-          Navigator.push(context,
+          Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const LoginView()));
         } else {
-          Navigator.push(
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => const ChooseCategoryScreen()));
@@ -42,6 +42,11 @@ class _SplashScreenState extends State<SplashScreen> {
       setState(() {});
       showMessage = true;
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override

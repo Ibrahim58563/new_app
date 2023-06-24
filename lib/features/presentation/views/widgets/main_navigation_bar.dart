@@ -11,7 +11,7 @@ List<Widget> _buildScreens() {
   return [
     const ExploreNewsBody(),
     const HotNewsBody(),
-     BookMarksScreen(),
+    const BookMarksScreen(),
     const MainScreen4(),
   ];
 }
@@ -31,7 +31,7 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       inactiveColorPrimary: CupertinoColors.systemGrey,
     ),
     PersistentBottomNavBarItem(
-      icon: const Icon(CupertinoIcons.bookmark),
+      icon: const Icon(CupertinoIcons.heart),
       title: ("Home"),
       activeColorPrimary: CupertinoColors.activeBlue,
       inactiveColorPrimary: CupertinoColors.systemGrey,

@@ -1,6 +1,10 @@
+import 'package:flinq/flinq.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:news_app/core/repo/hive_helper.dart';
 import 'package:news_app/features/presentation/views/widgets/custom_recommendation_item.dart';
+
+import '../../../../core/models/news_model/hive_bookMark_model.dart';
 
 class BookMarksScreen extends StatefulWidget {
   const BookMarksScreen({super.key});
@@ -10,12 +14,10 @@ class BookMarksScreen extends StatefulWidget {
 }
 
 class _BookMarksScreenState extends State<BookMarksScreen> {
-  // late Box bookMarks;
   @override
   void initState() {
-    // bookMarks.clear();
+    // HiveHelper.bookMarks.clear();
     super.initState();
-    // bookMarks = Hive.box<HiveBookMarkModel>('bookMarks');
   }
 
   @override
@@ -28,31 +30,32 @@ class _BookMarksScreenState extends State<BookMarksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Book Marks"),
-      ),
       body: Container(
-        // child: ValueListenableBuilder(
-        //   valueListenable: Hive.box('bookMarks').listenable(),
-        //   builder: (context, value, child) {
-        //     var bookMarks = Hive.box('bookMarks');
-        //     List bookMarksList = List.from(bookMarks.values);
-        //     return ListView.builder(
-        //       itemCount: bookMarksList.length,
-        //       itemBuilder: (context, index) {
-        //         // TODO: set the data correctly
-        //         return CustomRecommendationItem(
-        //           imageUrl: bookMarksList[index].imageUrl,
-        //           category: bookMarksList[index].category,
-        //           title: bookMarksList[index].title,
-        //           source: bookMarksList[index].source,
-        //           date: bookMarksList[index].date,
-        //           content: bookMarksList[index].content,
-        //         );
-        //       },
-        //     );
-        //   },
-        // ),
+        child: ValueListenableBuilder<Box<HiveBookMarkModel>>(
+          valueListenable: HiveHelper.bookMarks.listenable(),
+          builder: (context, value, child) {
+            final bookMarksList = value.values.distinct.toList();
+            if (bookMarksList.isEmpty) {
+              return const Center(
+                child: Text("No Items yet, Add some"),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: bookMarksList.length,
+                itemBuilder: (context, index) {
+                  return CustomRecommendationItem(
+                    imageUrl: bookMarksList[index].urlToImage,
+                    category: bookMarksList[index].category,
+                    title: bookMarksList[index].title,
+                    source: bookMarksList[index].source,
+                    date: bookMarksList[index].publishedAt,
+                    content: bookMarksList[index].content,
+                  );
+                },
+              );
+            }
+          },
+        ),
       ),
     );
   }

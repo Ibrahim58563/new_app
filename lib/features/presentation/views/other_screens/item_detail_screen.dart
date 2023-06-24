@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/features/presentation/views/other_screens/comment_screen.dart';
+import 'package:news_app/features/presentation/views/widgets/comment_box.dart';
 
 class ItemDetailScreen extends StatelessWidget {
   const ItemDetailScreen({
@@ -21,6 +23,13 @@ class ItemDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const Comment()));
+        },
+        child: const CommentBox(),
+      ),
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.pop(context),

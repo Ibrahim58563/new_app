@@ -33,6 +33,7 @@ dependencies:
   cached_network_image: ^3.2.3
   carousel_slider: ^4.2.1
   cloud_firestore: ^4.6.0
+  comment_box: ^0.0.18
   connectivity_plus: ^4.0.0
   cupertino_icons: ^1.0.2
   dartz: ^0.10.1
@@ -40,6 +41,7 @@ dependencies:
   equatable: ^2.0.5
   firebase_auth: any
   firebase_core: ^2.11.0
+  flinq: ^2.0.2
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.2

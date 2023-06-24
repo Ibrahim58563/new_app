@@ -11,6 +11,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:path_provider/path_provider.dart';
 import 'core/models/news_model/hive_bookMark_model.dart';
 import 'core/utils/app_routes.dart';
+import 'features/presentation/views/other_screens/splash_screen.dart';
 import 'firebase_options.dart';
 
 // bdcd432edce64b73b050a35f7def53cf
@@ -20,10 +21,10 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   final appDocumentDirectory = await getApplicationDocumentsDirectory();
-  // Hive.init(appDocumentDirectory.path);
-  Hive.initFlutter(appDocumentDirectory.path);
+  Hive.init(appDocumentDirectory.path);
+  await Hive.initFlutter(appDocumentDirectory.path);
   Hive.registerAdapter(HiveBookMarkModelAdapter());
-  Hive.openBox('bookMarks');
+  await Hive.openBox<HiveBookMarkModel>('bookMarks');
   setup();
   runApp(const MyApp());
 }
@@ -49,12 +50,12 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => signupCubit()),
         BlocProvider(create: (context) => LoginCubit())
       ],
-      child: MaterialApp.router(
+      child: MaterialApp(
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
         debugShowCheckedModeBanner: false,
-        routerConfig: router,
+        home: const SplashScreen(),
       ),
     );
   }

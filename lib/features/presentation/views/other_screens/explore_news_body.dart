@@ -34,6 +34,7 @@ class _ExploreNewsBodyState extends State<ExploreNewsBody> {
     // bookMarks.close();
   }
 
+  // final stopwatch = Stopwatch();
   DateTime time1 = DateTime.now();
   late DateTime time2;
   List<TimeSpentItem> timeSpent = [];
@@ -56,52 +57,34 @@ class _ExploreNewsBodyState extends State<ExploreNewsBody> {
             child: BlocBuilder<EveryNewCubit, EveryNewState>(
               builder: (context, state) {
                 if (state is EveryNewSuccess) {
-                  timeSpent.clear();
-                  final stopwatch = Stopwatch();
+                  // timeSpent.clear();
+
                   return ListView.builder(
                       itemCount: state.news.length,
                       itemBuilder: (context, index) {
-                        return VisibilityDetector(
-                          key: Key(index.toString()),
-                          onVisibilityChanged: (info) {
-                            stopwatch.start();
-                            // print("start");
-                            if (timeSpent.isEmpty) {
-                              timeSpent.add(TimeSpentItem(
-                                  id: state.news[index].title!,
-                                  time: stopwatch.elapsed));
-                            } else if (timeSpent.last.id !=
-                                state.news[index].title!) {
-                              timeSpent.add(TimeSpentItem(
-                                  id: state.news[index].title!,
-                                  time: stopwatch.elapsed));
-                            }
-                            print(timeSpent.length);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: const Offset(
-                                        0, 3), // changes position of shadow
-                                  ),
-                                ],
-                              ),
-                              child: ExploreNewsItem(
-                                imageUrl: '${state.news[index].urlToImage}',
-                                source: '${state.news[index].source!.name}',
-                                date: ' ${state.news[index].publishedAt!}',
-                                category: '${state.news[index].category}',
-                                title: '${state.news[index].title}',
-                                content: '${state.news[index].content}',
-                              ),
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: const Offset(
+                                      0, 3), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: ExploreNewsItem(
+                              imageUrl: '${state.news[index].urlToImage}',
+                              source: '${state.news[index].source!.name}',
+                              date: ' ${state.news[index].publishedAt!}',
+                              category: '${state.news[index].category}',
+                              title: '${state.news[index].title}',
+                              content: '${state.news[index].content}',
                             ),
                           ),
                         );
