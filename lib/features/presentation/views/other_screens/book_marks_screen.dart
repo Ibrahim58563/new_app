@@ -16,7 +16,7 @@ class BookMarksScreen extends StatefulWidget {
 class _BookMarksScreenState extends State<BookMarksScreen> {
   @override
   void initState() {
-    // HiveHelper.bookMarks.clear();
+    HiveHelper.bookMarks.clear();
     super.initState();
   }
 

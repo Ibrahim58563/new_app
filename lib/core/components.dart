@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 Widget mainCircleAvatar(IconData? icon) {
@@ -12,4 +13,85 @@ Widget mainCircleAvatar(IconData? icon) {
       ),
     ),
   );
+}
+
+class LikeButton extends StatelessWidget {
+  final bool isLiked;
+  void Function()? onTap;
+  LikeButton({
+    Key? key,
+    required this.isLiked,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Icon(
+        isLiked ? Icons.favorite : Icons.favorite_border,
+        color: isLiked ? Colors.red : Colors.grey,
+      ),
+    );
+  }
+}
+
+class Comment extends StatelessWidget {
+  final String user;
+  final String text;
+  final String time;
+  const Comment(
+      {super.key, required this.user, required this.text, required this.time});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: BorderRadius.circular(4),
+      ),
+      margin: const EdgeInsets.only(bottom: 5),
+      padding: const EdgeInsets.all(15),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        // comment
+        Text(text),
+        const SizedBox(
+          height: 5,
+        ),
+        // user, time
+        Row(
+          children: [
+            Text(
+              user,
+              style: const TextStyle(color: Colors.grey),
+            ),
+            const Text(" . "),
+            Text(
+              time,
+              style: const TextStyle(color: Colors.grey),
+            ),
+          ],
+        ),
+      ]),
+    );
+  }
+}
+
+class CommentButton extends StatelessWidget {
+  final void Function()? onTap;
+  const CommentButton({
+    Key? key,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: const Icon(
+        Icons.comment,
+        color: Colors.grey,
+      ),
+    );
+  }
 }

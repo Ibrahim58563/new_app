@@ -20,5 +20,5 @@ class TopHeadlinesFailure extends TopHeadlinesState {
 class TopHeadlinesSuccess extends TopHeadlinesState {
   final List<NewsModel> news;
 
-  TopHeadlinesSuccess(this.news);
+  const TopHeadlinesSuccess(this.news);
 }

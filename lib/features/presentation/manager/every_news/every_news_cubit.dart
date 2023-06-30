@@ -3,6 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:news_app/core/models/news_model/news_model.dart';
 import 'package:news_app/core/repo/home_repo.dart';
 
+import '../../../../core/repo/firestore.dart';
+
 part 'every_new_state.dart';
 
 class EveryNewCubit extends Cubit<EveryNewState> {
@@ -14,6 +16,8 @@ class EveryNewCubit extends Cubit<EveryNewState> {
     result.fold((failure) {
       emit(EveryNewFailure(failure.errMessage));
     }, (news) {
+      Firestore.uploadNewsToFirebase(news);
+
       emit(EveryNewSuccess(news));
     });
   }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen4 extends StatelessWidget {
@@ -5,8 +6,14 @@ class MainScreen4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Screen4')),
+    return Scaffold(
+      body: Center(
+          child: ListTile(
+        title: const Text('sign out'),
+        onTap: () {
+          FirebaseAuth.instance.signOut();
+        },
+      )),
     );
   }
 }

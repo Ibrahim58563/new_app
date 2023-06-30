@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
-import 'source.dart';
+import 'source.dart' as s;
 
 class NewsModel extends Equatable {
-  final Source? source;
+  final s.Source? source;
   final String? author;
   final String? title;
   final String? description;
@@ -12,6 +14,8 @@ class NewsModel extends Equatable {
   final String? publishedAt;
   final String? content;
   String? category;
+  List? likes;
+  String? documentId;
 
   NewsModel({
     this.source,
@@ -24,11 +28,12 @@ class NewsModel extends Equatable {
     this.content,
     this.category,
   });
-
+  
+  DocumentReference ref = FirebaseFirestore.instance.collection('news').doc();
   factory NewsModel.fromJson(Map<String, dynamic> json) => NewsModel(
         source: json['source'] == null
             ? null
-            : Source.fromJson(json['source'] as Map<String, dynamic>),
+            : s.Source.fromJson(json['source'] as Map<String, dynamic>),
         author: json['author'] as String?,
         title: json['title'] as String?,
         description: json['description'] as String?,
@@ -49,8 +54,9 @@ class NewsModel extends Equatable {
         'publishedAt': publishedAt,
         'content': content,
         'category': category,
+        'likes': [],
+        'documentId': '',
       };
-
   @override
   List<Object?> get props {
     return [

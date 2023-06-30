@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class Source extends Equatable {
@@ -12,7 +13,7 @@ class Source extends Equatable {
       );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
+        'id': FirebaseFirestore.instance.collection('news').doc().id,
         'name': name,
       };
 
