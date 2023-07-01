@@ -38,14 +38,17 @@ class _ExploreNewsBodyState extends State<ExploreNewsBody> {
     // bookMarks.close();
   }
 
-  Future<String> someFutureStringFunction() async {
-    return Future.delayed(const Duration(seconds: 1), () => "someText");
-  }
-
   // final stopwatch = Stopwatch();
   DateTime time1 = DateTime.now();
   late DateTime time2;
   List<TimeSpentItem> timeSpent = [];
+  var newsCollection =
+      FirebaseFirestore.instance.collection('news').snapshots();
+  var newsCollectionLength = FirebaseFirestore.instance
+      .collection('news')
+      .snapshots()
+      .length
+      .toString();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,17 +67,16 @@ class _ExploreNewsBodyState extends State<ExploreNewsBody> {
           Expanded(
             child: BlocBuilder<EveryNewCubit, EveryNewState>(
               builder: (context, state) {
-                if (state is EveryNewSuccess) {
+                // if (state is EveryNewSuccess) {
+                if (true) {
                   // timeSpent.clear();
                   final commentSnapshot = FirebaseFirestore.instance
                       .collection('news')
                       .doc()
                       .collection('comments')
                       .snapshots();
-                  return StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection('news')
-                          .snapshots(),
+                  return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                      stream: newsCollection,
                       builder: (context, snapshot) {
                         if (snapshot.hasError) {
                           return const Text("Sth went wrong");
@@ -86,9 +88,9 @@ class _ExploreNewsBodyState extends State<ExploreNewsBody> {
                             );
                           }
                           return ListView.builder(
-                              itemCount: state.news.length,
+                              itemCount: 10,
                               itemBuilder: (context, index) {
-                                print((snapshot.data!.docs[index].id));
+                                // print((snapshot.data!.docs[index].id));
                                 final post = snapshot.data?.docs[index];
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -107,15 +109,20 @@ class _ExploreNewsBodyState extends State<ExploreNewsBody> {
                                       ],
                                     ),
                                     child: ExploreNewsItem(
-                                      imageUrl:
-                                          '${state.news[index].urlToImage}',
-                                      source:
-                                          '${state.news[index].source!.name}',
-                                      date:
-                                          ' ${state.news[index].publishedAt!}',
-                                      category: '${state.news[index].category}',
-                                      title: '${state.news[index].title}',
-                                      content: '${state.news[index].content}',
+                                      imageUrl: snapshot.data!.docs[index]
+                                          ['urlToImage'],
+                                      source: snapshot.data!.docs[index]
+                                              ['source'] ??
+                                          " ",
+                                      date: snapshot.data!.docs[index]
+                                          ['publishedAt'],
+                                      category: snapshot.data!.docs[index]
+                                          ['category'],
+                                      title: snapshot.data!.docs[index]
+                                          ['title'],
+                                      content: snapshot.data!.docs[index]
+                                              ['content'] ??
+                                          " ",
                                       postId: (snapshot.data!.docs[index].id),
                                       likes: List<String>.from(
                                           snapshot.data?.docs[index]['likes'] ??
@@ -133,6 +140,7 @@ class _ExploreNewsBodyState extends State<ExploreNewsBody> {
                       });
                 } else if (state is EveryNewFailure) {
                   print(state.failure.toString());
+                  print("error in cubit in every new");
                   return CustomErrorWidget(errMessage: state.failure);
                 } else {
                   return const CustomLoadingIndicator();

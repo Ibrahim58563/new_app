@@ -2,8 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/features/presentation/views/home_view.dart';
 
-import '../../../../core/repo/home_repo_implementation.dart';
-
 List<String> categoryList = [
   'business',
   'entertainment',
@@ -59,8 +57,6 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
                   ),
                   itemCount: 7,
                   itemBuilder: (context, index) {
-                    // bool isChecked = false;
-
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
@@ -71,16 +67,16 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
                                 : selectedIndex.add(index);
                             isChecked = !isChecked;
                           });
-
-                          if (categoryParameterList
-                              .contains(categoryList[index])) {
-                            categoryParameterList.remove(categoryList[index]);
+                          if (passedParameterList
+                                  .contains(categoryList[index]) &&
+                              categoryList.isNotEmpty) {
+                            passedParameterList.remove(categoryList[index]);
                             debugPrint(
-                                '${categoryList[index]} deleted successfully');
+                                '${passedParameterList[index]} deleted successfully');
                           } else {
-                            categoryParameterList.add(categoryList[index]);
+                            passedParameterList.add(categoryList[index]);
                             debugPrint(
-                                '${categoryList[index]} added successfully');
+                                '${passedParameterList[index]} added successfully');
                           }
                         },
                         child: Container(
@@ -132,6 +128,7 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
             height: 50,
             color: Colors.blue,
             onPressed: () {
+              print(passedParameterList);
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

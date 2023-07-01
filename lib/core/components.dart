@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 Widget mainCircleAvatar(IconData? icon) {
@@ -94,4 +96,17 @@ class CommentButton extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<bool> checkNetwork() async {
+  bool isConnected = false;
+  try {
+    final result = await InternetAddress.lookup('google.com');
+    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      isConnected = true;
+    }
+  } on SocketException catch (_) {
+    isConnected = false;
+  }
+  return isConnected;
 }

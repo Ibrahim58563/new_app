@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
 import 'source.dart' as s;
 
@@ -28,8 +27,9 @@ class NewsModel extends Equatable {
     this.content,
     this.category,
   });
-  
-  DocumentReference ref = FirebaseFirestore.instance.collection('news').doc();
+
+  var docId = FirebaseFirestore.instance.collection('news').doc();
+
   factory NewsModel.fromJson(Map<String, dynamic> json) => NewsModel(
         source: json['source'] == null
             ? null
@@ -55,7 +55,7 @@ class NewsModel extends Equatable {
         'content': content,
         'category': category,
         'likes': [],
-        'documentId': '',
+        'documentId': docId.id,
       };
   @override
   List<Object?> get props {

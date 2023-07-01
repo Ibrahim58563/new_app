@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/core/utils/helper_methods.dart';
@@ -74,8 +76,8 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
   }
 
   // add a comment
-  void addComment(String commentText) {
-    FirebaseFirestore.instance
+  void addComment(String commentText) async {
+    await FirebaseFirestore.instance
         .collection('news')
         .doc(widget.postId)
         .collection('comments')
@@ -83,7 +85,19 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
       'CommentText': commentText,
       'CommentedBy': currentUser.email,
       'CommentTime': Timestamp.now(),
+      'CommentSentiment': await getCommentSentiment(commentText),
     });
+  }
+
+  final dio = Dio();
+  Future<int> getCommentSentiment(String commentText) async {
+    final commentSentiment = await dio.get(
+        'https://sentimentanalysismodel.osamamo.repl.co/Sentiment?Comment=$commentText');
+    print(commentSentiment.data);
+    Map<String, dynamic> jsonComment = json.decode(commentSentiment.toString());
+    String sentiment = jsonComment['Comment Sentiment'];
+    print(sentiment);
+    return (sentiment == 'Postive') ? 1 : -1;
   }
 
   // show a dialog box for adding comment
@@ -100,8 +114,9 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
               actions: [
                 // save Button
                 TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     addComment(_commentTextController.text);
+                    getCommentSentiment(_commentTextController.text);
                     Navigator.pop(context);
                     _commentTextController.clear();
                   },
@@ -178,6 +193,15 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
             log(widget.title, name: 'reset');
             log("${stopwatch.elapsed}", name: "spent time");
             stopwatch.stop();
+            FirebaseFirestore.instance
+                .collection('news')
+                .doc(widget.postId)
+                .collection('scroll')
+                .add({
+              'User': currentUser.email,
+              'ScrollingTime': stopwatch.elapsed.toString(),
+            });
+            print("scrolling time added to firebase");
           }
         },
         child: Container(

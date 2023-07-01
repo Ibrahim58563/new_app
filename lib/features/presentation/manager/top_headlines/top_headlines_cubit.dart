@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:news_app/core/models/news_model/news_model.dart';
 import 'package:news_app/core/repo/firestore.dart';
@@ -16,7 +17,9 @@ class TopHeadlinesCubit extends Cubit<TopHeadlinesState> {
     result.fold((failure) {
       emit(TopHeadlinesFailure(failure.errMessage));
     }, (news) {
-      Firestore.uploadNewsToFirebase(news);
+      var documentId = FirebaseFirestore.instance.collection('news').doc();
+
+      // Firestore.uploadNewsToFirebase(news);
       emit(TopHeadlinesSuccess(news));
     });
   }

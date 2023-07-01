@@ -23,7 +23,8 @@ class ServerFailure extends Failure {
         return ServerFailure('Bad Certificate');
 
       case DioErrorType.badResponse:
-        return ServerFailure.fromResponse(statusCode: dioError.response!.statusCode!);
+        return ServerFailure.fromResponse(
+            statusCode: dioError.response!.statusCode!);
 
       case DioErrorType.cancel:
         return ServerFailure('Your request was canceled');
@@ -42,10 +43,9 @@ class ServerFailure extends Failure {
       return ServerFailure(response['error']['message']);
     } else if (statusCode == 404) {
       return ServerFailure('Your request Not Found, try again later');
-    
     } else if (statusCode == 500) {
       return ServerFailure('Internal Server Error, try Later');
-    } else  {
+    } else {
       return ServerFailure('Error, Try Again later');
     }
   }

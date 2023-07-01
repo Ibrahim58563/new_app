@@ -6,7 +6,7 @@ part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitialState());
-  
+
   void userLogin({required String email, required String password}) {
     emit(LoginLoadingState());
     FirebaseAuth.instance
