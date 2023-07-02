@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/features/presentation/views/other_screens/choose_category.dart';
 
 import '../../manager/every_news/every_news_cubit.dart';
 import '../widgets/custom_error_widget.dart';
@@ -42,8 +43,6 @@ class _ExploreNewsBodyState extends State<ExploreNewsBody> {
   DateTime time1 = DateTime.now();
   late DateTime time2;
   List<TimeSpentItem> timeSpent = [];
-  var newsCollection =
-      FirebaseFirestore.instance.collection('news').snapshots();
   var newsCollectionLength = FirebaseFirestore.instance
       .collection('news')
       .snapshots()
@@ -51,6 +50,12 @@ class _ExploreNewsBodyState extends State<ExploreNewsBody> {
       .toString();
   @override
   Widget build(BuildContext context) {
+    // var newsCollection =
+    //     FirebaseFirestore.instance.collection('news').snapshots();
+    var newsCollection = FirebaseFirestore.instance
+        .collection('news')
+        .where('category', whereIn: passedParameterList)
+        .snapshots();
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -87,8 +92,9 @@ class _ExploreNewsBodyState extends State<ExploreNewsBody> {
                               child: CircularProgressIndicator(),
                             );
                           }
+                          // final docs = snapshot.data.docs.documents..shuffle();
                           return ListView.builder(
-                              itemCount: 10,
+                              itemCount: passedParameterList.length * 18,
                               itemBuilder: (context, index) {
                                 // print((snapshot.data!.docs[index].id));
                                 final post = snapshot.data?.docs[index];

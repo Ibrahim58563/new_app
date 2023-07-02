@@ -5,14 +5,14 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../hot_news_body.dart';
 import '../other_screens/explore_news_body.dart';
 import '../other_screens/book_marks_screen.dart';
-import '../other_screens/main_screen4.dart';
+import '../other_screens/settings_screen.dart';
 
 List<Widget> _buildScreens() {
   return [
     const ExploreNewsBody(),
     const HotNewsBody(),
     const BookMarksScreen(),
-    const MainScreen4(),
+    const SettingsScreen(),
   ];
 }
 
@@ -56,6 +56,7 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
   @override
   Widget build(BuildContext context) {
     PersistentTabController controller;
+    
 
     controller = PersistentTabController(initialIndex: 0);
     return SizedBox(

@@ -48,7 +48,6 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
   List newsList = [];
   // user
   final currentUser = FirebaseAuth.instance.currentUser!;
-  bool isLiked = false;
   // comment text controller
   final _commentTextController = TextEditingController();
   @override
@@ -57,36 +56,98 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
     super.initState();
   }
 
-  void toggleLike() {
-    // setState(() {
+  bool isLiked = false;
+  void toggleLike() async {
     isLiked = !isLiked;
-    // });
+    var isLikedCounter = isLiked ? 1 : -1;
     DocumentReference postRef =
         FirebaseFirestore.instance.collection('news').doc(widget.postId);
-    log(widget.postId.toString());
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUserId)
+        .collection('modelValues')
+        .doc(widget.category)
+        .collection('likes')
+        .add({
+      'postId': widget.postId,
+      'LikedBy': currentUser.email,
+      'Likes': isLikedCounter,
+    });
+    var likesSummary = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUserId)
+        .collection('modelValues')
+        .doc(widget.category)
+        .get();
+    var newLikesSummary = (likesSummary.data()?['summary']);
+
     if (isLiked) {
       postRef.update({
-        'likes': FieldValue.arrayUnion([currentUser.email])
+        'likes': FieldValue.arrayUnion([currentUser.email]),
       });
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUserId)
+          .collection('modelValues')
+          .doc(widget.category)
+          .set({'summary': newLikesSummary + isLikedCounter},
+              SetOptions(merge: true));
+      print("like should have been sent");
     } else {
       postRef.update({
         'likes': FieldValue.arrayRemove([currentUser.email])
       });
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUserId)
+          .collection('modelValues')
+          .doc(widget.category)
+          .set({'summary': newLikesSummary + isLikedCounter},
+              SetOptions(merge: true));
+      print("like should have been removed");
     }
   }
 
   // add a comment
   void addComment(String commentText) async {
+    var sentiment = await getCommentSentiment(commentText);
     await FirebaseFirestore.instance
         .collection('news')
         .doc(widget.postId)
         .collection('comments')
         .add({
+      'postId': widget.postId,
       'CommentText': commentText,
       'CommentedBy': currentUser.email,
       'CommentTime': Timestamp.now(),
-      'CommentSentiment': await getCommentSentiment(commentText),
+      'CommentSentiment': sentiment,
     });
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUserId)
+        .collection('modelValues')
+        .doc(widget.category)
+        .collection('comments')
+        .add({
+      'postId': widget.postId,
+      'CommentText': commentText,
+      'CommentedBy': currentUser.email,
+      'CommentTime': Timestamp.now(),
+      'CommentSentiment': sentiment,
+    });
+    var commentsSummary = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUserId)
+        .collection('modelValues')
+        .doc(widget.category)
+        .get();
+    var newCommentsSummary = (commentsSummary.data()?['summary']) + sentiment;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUserId)
+        .collection('modelValues')
+        .doc(widget.category)
+        .set({'summary': newCommentsSummary}, SetOptions(merge: true));
   }
 
   final dio = Dio();
@@ -97,7 +158,7 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
     Map<String, dynamic> jsonComment = json.decode(commentSentiment.toString());
     String sentiment = jsonComment['Comment Sentiment'];
     print(sentiment);
-    return (sentiment == 'Postive') ? 1 : -1;
+    return (sentiment == 'Positive') ? 1 : -1;
   }
 
   // show a dialog box for adding comment
@@ -149,8 +210,7 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
   int likeCount = 0;
 
   void addBookmarkItems(String imageUrl, String category, String title,
-      String source, String date, String content) {
-    // setState(() {
+      String source, String date, String content) async {
     HiveHelper.bookMarks.add(HiveBookMarkModel(
       urlToImage: widget.imageUrl,
       source: widget.source,
@@ -162,7 +222,31 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
       description: '',
       url: '',
     ));
-    // });
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUserId)
+        .collection('modelValues')
+        .doc(widget.category)
+        .collection('bookMarks')
+        .add({
+      'postId': widget.postId,
+      'BookMarkedBy': currentUser.email,
+      'BookMarkedTime': Timestamp.now(),
+      'BookMarkSentiment': 2,
+    });
+    var bookMarksSummary = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUserId)
+        .collection('modelValues')
+        .doc(widget.category)
+        .get();
+    var newBookMarkSummary = (bookMarksSummary.data()?['summary']) + 2;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUserId)
+        .collection('modelValues')
+        .doc(widget.category)
+        .set({'summary': newBookMarkSummary}, SetOptions(merge: true));
     log("added");
   }
 
@@ -183,7 +267,7 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
                   ))),
       child: VisibilityDetector(
         key: Key(widget.title.toString()),
-        onVisibilityChanged: (info) {
+        onVisibilityChanged: (info) async {
           if (info.visibleFraction == 1 && !stopwatch.isRunning) {
             stopwatch.start();
             log(widget.title, name: 'start');
@@ -193,7 +277,7 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
             log(widget.title, name: 'reset');
             log("${stopwatch.elapsed}", name: "spent time");
             stopwatch.stop();
-            FirebaseFirestore.instance
+            await FirebaseFirestore.instance
                 .collection('news')
                 .doc(widget.postId)
                 .collection('scroll')
@@ -201,6 +285,35 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
               'User': currentUser.email,
               'ScrollingTime': stopwatch.elapsed.toString(),
             });
+            var scrollingTimeResult =
+                (stopwatch.elapsed > const Duration(seconds: 10)) ? 1 : 0;
+            var scrollingTime = stopwatch.elapsed.toString();
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(currentUserId)
+                .collection('modelValues')
+                .doc(widget.category)
+                .collection('scrolling')
+                .add({
+              'postId': widget.postId,
+              'ScrolledBy': currentUser.email,
+              'ScrollingTime': scrollingTime,
+            });
+            var scrollingSummary = await FirebaseFirestore.instance
+                .collection('users')
+                .doc(currentUserId)
+                .collection('modelValues')
+                .doc(widget.category)
+                .get();
+            var newScrollingSummary =
+                (scrollingSummary.data()?['summary']) + scrollingTimeResult;
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(currentUserId)
+                .collection('modelValues')
+                .doc(widget.category)
+                .set({'summary': newScrollingSummary}, SetOptions(merge: true));
+
             print("scrolling time added to firebase");
           }
         },

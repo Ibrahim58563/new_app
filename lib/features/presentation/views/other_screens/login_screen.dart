@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -202,44 +201,44 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 27,
-                      backgroundColor: Colors.grey,
-                      child: CircleAvatar(
-                        radius: 26,
-                        backgroundColor: Colors.white,
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              'https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png',
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    CircleAvatar(
-                      radius: 27,
-                      backgroundColor: Colors.grey,
-                      child: CircleAvatar(
-                        radius: 26,
-                        backgroundColor: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/600px-Facebook_Logo_%282019%29.png',
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                )
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     CircleAvatar(
+                //       radius: 27,
+                //       backgroundColor: Colors.grey,
+                //       child: CircleAvatar(
+                //         radius: 26,
+                //         backgroundColor: Colors.white,
+                //         child: CachedNetworkImage(
+                //           imageUrl:
+                //               'https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png',
+                //         ),
+                //       ),
+                //     ),
+                //     const SizedBox(
+                //       width: 20,
+                //     ),
+                //     CircleAvatar(
+                //       radius: 27,
+                //       backgroundColor: Colors.grey,
+                //       child: CircleAvatar(
+                //         radius: 26,
+                //         backgroundColor: Colors.white,
+                //         child: Padding(
+                //           padding: const EdgeInsets.all(6.0),
+                //           child: CachedNetworkImage(
+                //             imageUrl:
+                //                 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/600px-Facebook_Logo_%282019%29.png',
+                //           ),
+                //         ),
+                //       ),
+                //     )
+                //   ],
+                // )
               ]),
             ),
           ),

@@ -73,7 +73,9 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
                             passedParameterList.remove(categoryList[index]);
                             debugPrint(
                                 '${passedParameterList[index]} deleted successfully');
-                          } else {
+                          } else if (!(passedParameterList
+                                  .contains(categoryList[index]) &&
+                              categoryList.isEmpty)) {
                             passedParameterList.add(categoryList[index]);
                             debugPrint(
                                 '${passedParameterList[index]} added successfully');
