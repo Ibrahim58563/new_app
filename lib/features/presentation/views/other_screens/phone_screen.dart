@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/features/presentation/views/other_screens/otp_screen.dart';
+import 'package:news_app/features/presentation/views/other_screens/settings_screen.dart';
 import 'package:news_app/features/presentation/views/widgets/custom_button.dart';
 
 class PhoneScreen extends StatefulWidget {
@@ -144,6 +146,10 @@ class _PhoneScreenState extends State<PhoneScreen> {
               text: 'Send Code',
               onTap: () {
                 phoneAuthentication(phoneController!.text);
+                FirebaseFirestore.instance.collection('users').doc(userId).set(
+                  {'phone': phoneController!.text.trim()},
+                );
+
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const OTPScreen()));
               },

@@ -56,7 +56,6 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
   @override
   Widget build(BuildContext context) {
     PersistentTabController controller;
-    
 
     controller = PersistentTabController(initialIndex: 0);
     return SizedBox(

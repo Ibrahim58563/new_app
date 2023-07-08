@@ -19,39 +19,19 @@ class ExploreNewsBody extends StatefulWidget {
 }
 
 class _ExploreNewsBodyState extends State<ExploreNewsBody> {
-  // late Box bookMarks;
   List newsList = [];
   @override
   void initState() {
-    // Firestore.getAllNews().then((List list) {
-    //   setState(() {
-    //     newsList = list;
-    //   });
-    // });
     super.initState();
-    // bookMarks = Hive.box('bookMarks');
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
-    // bookMarks.close();
   }
 
-  // final stopwatch = Stopwatch();
-  DateTime time1 = DateTime.now();
-  late DateTime time2;
-  List<TimeSpentItem> timeSpent = [];
-  var newsCollectionLength = FirebaseFirestore.instance
-      .collection('news')
-      .snapshots()
-      .length
-      .toString();
   @override
   Widget build(BuildContext context) {
-    // var newsCollection =
-    //     FirebaseFirestore.instance.collection('news').snapshots();
     var newsCollection = FirebaseFirestore.instance
         .collection('news')
         .where('category', whereIn: passedParameterList)
@@ -72,14 +52,7 @@ class _ExploreNewsBodyState extends State<ExploreNewsBody> {
           Expanded(
             child: BlocBuilder<EveryNewCubit, EveryNewState>(
               builder: (context, state) {
-                // if (state is EveryNewSuccess) {
                 if (true) {
-                  // timeSpent.clear();
-                  final commentSnapshot = FirebaseFirestore.instance
-                      .collection('news')
-                      .doc()
-                      .collection('comments')
-                      .snapshots();
                   return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                       stream: newsCollection,
                       builder: (context, snapshot) {
@@ -92,12 +65,9 @@ class _ExploreNewsBodyState extends State<ExploreNewsBody> {
                               child: CircularProgressIndicator(),
                             );
                           }
-                          // final docs = snapshot.data.docs.documents..shuffle();
                           return ListView.builder(
                               itemCount: passedParameterList.length * 18,
                               itemBuilder: (context, index) {
-                                // print((snapshot.data!.docs[index].id));
-                                final post = snapshot.data?.docs[index];
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
@@ -158,13 +128,4 @@ class _ExploreNewsBodyState extends State<ExploreNewsBody> {
       ),
     );
   }
-}
-
-class TimeSpentItem {
-  String? id;
-  Duration? time;
-  TimeSpentItem({
-    this.id,
-    this.time,
-  });
 }

@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app/features/presentation/manager/auth/cashe_helper.dart';
-import 'package:news_app/features/presentation/manager/auth/user_secure_storage.dart';
 import 'package:news_app/features/presentation/views/other_screens/choose_category.dart';
 import 'package:news_app/features/presentation/views/other_screens/sign_up_screen.dart';
 import 'package:news_app/features/presentation/views/widgets/custom_loading_indicator.dart';
@@ -34,6 +34,7 @@ class _LoginViewState extends State<LoginView> {
   // }
 
   final _loginCubit = LoginCubit();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,12 +91,8 @@ class _LoginViewState extends State<LoginView> {
                   prefixIconName: Icons.lock_outline_rounded,
                   suffixIconName: IconButton(
                     icon: visiblePassword == true
-                        ? const Icon(
-                            Icons.visibility_off_rounded,
-                          )
-                        : const Icon(
-                            Icons.remove_red_eye_rounded,
-                          ),
+                        ? const Icon(Icons.visibility_off_rounded)
+                        : const Icon(Icons.remove_red_eye_rounded),
                     onPressed: () {
                       setState(() {
                         visiblePassword = !visiblePassword;
@@ -109,13 +106,13 @@ class _LoginViewState extends State<LoginView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Forget Password?',
-                      style: TextStyle(
-                        color: Colors.grey, fontSize: 14,
-                        // decoration: TextDecoration.underline,
-                      ),
-                    ),
+                    // const Text(
+                    //   'Forget Password?',
+                    //   style: TextStyle(
+                    //     color: Colors.grey, fontSize: 14,
+                    //     // decoration: TextDecoration.underline,
+                    //   ),
+                    // ),
                     InkWell(
                       onTap: () => Navigator.push(
                         context,
@@ -159,19 +156,37 @@ class _LoginViewState extends State<LoginView> {
 
                           return CustomButton(
                             onTap: () async {
-                              if (formKey.currentState!.validate()) {
-                                _loginCubit.userLogin(
+                              try {
+                                final authResult = await FirebaseAuth.instance
+                                    .signInWithEmailAndPassword(
                                   email: emailController!.text.trim(),
                                   password: passwordController!.text.trim(),
                                 );
-                                await UserSecureStorage.setEmail(
-                                  emailController!.text.trim(),
-                                );
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ChooseCategoryScreen()));
+                                if (authResult.user != null) {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: ((context) =>
+                                              const ChooseCategoryScreen())));
+                                }
+                              } on FirebaseAuthException catch (e) {
+                                print(e.toString());
+                                if (e.code == 'wrong-password') {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text("Wrong Password"),
+                                  ));
+                                } else if (e.code == 'user-not-found') {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text("User not found"),
+                                  ));
+                                } else if (e.code == 'invalid-email') {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text("Invalid E-Mail"),
+                                  ));
+                                }
                               }
                             },
                             text: 'Login',
@@ -179,28 +194,28 @@ class _LoginViewState extends State<LoginView> {
                         });
                   },
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      color: Colors.grey[400],
-                      height: 1,
-                      width: MediaQuery.of(context).size.width * .365,
-                    ),
-                    const Text(
-                      '    OR    ',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    Container(
-                      color: Colors.grey[400],
-                      height: 1,
-                      width: MediaQuery.of(context).size.width * .365,
-                    ),
-                  ],
-                ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Container(
+                //       color: Colors.grey[400],
+                //       height: 1,
+                //       width: MediaQuery.of(context).size.width * .365,
+                //     ),
+                //     const Text(
+                //       '    OR    ',
+                //       style: TextStyle(color: Colors.grey),
+                //     ),
+                //     Container(
+                //       color: Colors.grey[400],
+                //       height: 1,
+                //       width: MediaQuery.of(context).size.width * .365,
+                //     ),
+                //   ],
+                // ),
                 // const SizedBox(
                 //   height: 20,
                 // ),

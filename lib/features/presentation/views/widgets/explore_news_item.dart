@@ -48,7 +48,6 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
   List newsList = [];
   // user
   final currentUser = FirebaseAuth.instance.currentUser!;
-  // comment text controller
   final _commentTextController = TextEditingController();
   @override
   void initState() {
@@ -305,8 +304,8 @@ class _ExploreNewsItemState extends State<ExploreNewsItem> {
                 .collection('modelValues')
                 .doc(widget.category)
                 .get();
-            var newScrollingSummary =
-                (scrollingSummary.data()?['summary']) + scrollingTimeResult;
+            var newScrollingSummary = (scrollingSummary.data()?['summary']) ??
+                0 + scrollingTimeResult;
             await FirebaseFirestore.instance
                 .collection('users')
                 .doc(currentUserId)

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:news_app/features/presentation/views/other_screens/login_screen.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -70,7 +69,7 @@ class _OTPScreenState extends State<OTPScreen> {
             ),
             CustomButton(
               text: 'Confirm',
-              onTap: () => Navigator.push(context,
+              onTap: () => Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const LoginView())),
             )
           ]),

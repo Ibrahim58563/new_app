@@ -41,39 +41,6 @@ class ItemDetailScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: [
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 28,
-                backgroundColor: Colors.black26,
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.bookmark_border_outlined,
-                    size: 32,
-                    color: Colors.white,
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              CircleAvatar(
-                radius: 28,
-                backgroundColor: Colors.black26,
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.more_horiz_rounded,
-                    size: 32,
-                    color: Colors.white,
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
       body: Stack(children: [
         CachedNetworkImage(

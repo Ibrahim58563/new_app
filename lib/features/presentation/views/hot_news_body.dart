@@ -5,7 +5,6 @@ import 'package:news_app/features/presentation/manager/every_news/every_news_cub
 import 'package:news_app/features/presentation/views/widgets/custom_error_widget.dart';
 import 'package:news_app/features/presentation/views/widgets/custom_loading_indicator.dart';
 import 'package:news_app/features/presentation/views/widgets/custom_recommendation_item.dart';
-import 'package:news_app/features/presentation/views/widgets/main_app_bar.dart';
 import 'package:news_app/features/presentation/views/widgets/main_carousal_slider.dart';
 import 'package:news_app/features/presentation/views/widgets/main_title.dart';
 
@@ -27,7 +26,6 @@ class _HotNewsBodyState extends State<HotNewsBody> {
     return Scaffold(
       body: Column(
         children: [
-          const MainAppBar(),
           const MainTitle(text: 'Breaking News', url: " "),
           const MainCarousalSlider(),
           const MainTitle(text: 'Recommendation', url: " "),

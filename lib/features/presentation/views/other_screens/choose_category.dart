@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/core/utils/capitalize_string_extension.dart';
 import 'package:news_app/features/presentation/views/home_view.dart';
 
 List<String> categoryList = [
@@ -113,10 +114,10 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
                                   height: 135,
                                 ),
                                 Text(
-                                  categoryList[index],
+                                  categoryList[index].capitalize(),
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                                    fontSize: 18,
                                   ),
                                 )
                               ],

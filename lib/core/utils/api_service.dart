@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 
 class ApiService {
   final _baseUrl = 'https://newsapi.org';
-  // final _commentUrl = 'https://newsapi.org';
   final Dio dio;
   ApiService(this.dio);
 

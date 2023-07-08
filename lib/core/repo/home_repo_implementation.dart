@@ -4,6 +4,7 @@ import 'package:news_app/core/models/news_model/comment_model.dart';
 import 'package:news_app/core/repo/failure.dart';
 import 'package:news_app/core/models/news_model/news_model.dart';
 import 'package:dartz/dartz.dart';
+import 'package:news_app/core/repo/firestore.dart';
 import 'package:news_app/core/repo/home_repo.dart';
 import 'package:news_app/core/utils/api_service.dart';
 
@@ -69,7 +70,7 @@ class HomeRepoImplementation extends HomeRepo {
         data = await apiService.get(
           endPoint:
               '/v2/top-headlines?country=us&category=${categoryList[i]}&apiKey=bdcd432edce64b73b050a35f7def53cf',
-        );
+      );
         print("${categoryList[i]} added successfully");
         for (var item in data['articles']) {
           if (NewsModel.fromJson(item).urlToImage != null) {

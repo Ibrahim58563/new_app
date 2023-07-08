@@ -12,6 +12,7 @@ class LoginCubit extends Cubit<LoginState> {
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) {
+          
       print("code should been sent");
       emit(LoginSuccessState(value.user!.uid));
     }).catchError((e) {
