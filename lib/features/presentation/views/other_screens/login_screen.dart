@@ -168,6 +168,16 @@ class _LoginViewState extends State<LoginView> {
                                       MaterialPageRoute(
                                           builder: ((context) =>
                                               const ChooseCategoryScreen())));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text("Checking your data"),
+                                  ));
+                                } else {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content:
+                                        Text("Sth went wrong try again later"),
+                                  ));
                                 }
                               } on FirebaseAuthException catch (e) {
                                 print(e.toString());

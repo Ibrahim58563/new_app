@@ -144,14 +144,18 @@ class _PhoneScreenState extends State<PhoneScreen> {
             ),
             CustomButton(
               text: 'Send Code',
-              onTap: () {
+              onTap: () async {
                 phoneAuthentication(phoneController!.text);
-                FirebaseFirestore.instance.collection('users').doc(userId).set(
-                  {'phone': phoneController!.text.trim()},
-                );
 
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const OTPScreen()));
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(userId)
+                    .set(
+                  {'phone': phoneController!.text.trim()},
+                  SetOptions(merge: true),
+                );
               },
             )
           ]),

@@ -65,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Column(
               children: [
                 Text(
-                  "Akhbary",
+                  "Ai Viral News",
                   style: GoogleFonts.lobster(
                     fontWeight: FontWeight.bold,
                     fontSize: 54,
